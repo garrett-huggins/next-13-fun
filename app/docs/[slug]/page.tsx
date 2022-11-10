@@ -4,18 +4,23 @@ import markdownStyles from "./markdown-styles.module.css";
 
 export default async function DocsSection({
   params,
+  searchParams,
 }: {
   params: { slug: string };
+  searchParams: { section: string };
 }) {
-  const post = getPostBySlug(params.slug, ["title", "author", "content"]);
+  const post = getPostBySlug(
+    searchParams.section,
+    ["title", "author", "content"],
+    params.slug
+  );
 
   const content = await markdownToHtml(post.content || "");
 
   return (
     <div className="w-full h-16  text-white">
-      <p>{post.title}</p>
-      {/* angry since Items: [key: string]: string */}
-      <p>{post.author}</p>
+      <p className="text-2xl">{post.title}</p>
+      <p className="text-gray-400">{post.author}</p>
       <div
         className={markdownStyles["markdown"]}
         dangerouslySetInnerHTML={{ __html: content }}
