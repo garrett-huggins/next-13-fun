@@ -4,12 +4,11 @@ type Author = {
 };
 
 type PostType = {
-  slug: string;
+  idx: number;
   title: string;
-  date: string;
+  excerpt: string;
   coverImage: string;
   author: Author;
-  excerpt: string;
   ogImage: {
     url: string;
   };
