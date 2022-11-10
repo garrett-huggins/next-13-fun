@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import Link from "next/link";
+import { getAllPosts } from "../../lib/api";
 
 async function getSections() {
   const section = await fetch("https://dummyjson.com/posts?limit=10");
@@ -11,7 +12,9 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const { posts } = await getSections();
+  const posts = getAllPosts(["title", "slug"]);
+
+  console.log(posts);
 
   return (
     <div className="container mx-auto">
@@ -20,9 +23,9 @@ export default async function Layout({
           className={`sticky h-screen top-0 w-full overflow-y-scroll ${styles.sidebar}`}
         >
           <ul>
-            {posts.map((item: { id: string; title: string }) => (
-              <li key={item.id}>
-                <Link href={`/docs/${item.id}`}>{item.title}</Link>
+            {posts.map((item) => (
+              <li key={item.slug}>
+                <Link href={`/docs/${item.slug}`}>{item.title}</Link>
               </li>
             ))}
             <li>Intro</li>
